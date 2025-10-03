@@ -4,7 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "dev":"node --env-file .env --watch --experimental-strip-types src/server.ts",
+    "dev": "node --env-file .env --watch --experimental-strip-types src/server.ts",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "keywords": [],

@@ -1,8 +1,8 @@
-import { int, varchar } from "drizzle-orm/mysql-core";
+import { serial, varchar } from "drizzle-orm/mysql-core";
 import { datetime } from "drizzle-orm/mysql-core";
 import { mysqlEnum } from "drizzle-orm/mysql-core";
 import { decimal } from "drizzle-orm/mysql-core";
-import { serial } from "drizzle-orm/mysql-core";
+import { int } from "drizzle-orm/mysql-core";
 import { mysqlTable } from "drizzle-orm/mysql-core";
 
 
@@ -12,7 +12,7 @@ export const statusOrder = mysqlEnum( ["canceled","em-andamento","erro","pendent
   
 
 export const products = mysqlTable('products',{
-    id:  serial().primaryKey(),
+    id:  int().primaryKey(),
     name: varchar( { length: 255}).notNull(),
     description:varchar( { length: 255}),
     price: decimal( { precision:10, scale:2}).notNull().default('0.00'),
@@ -24,7 +24,7 @@ export const products = mysqlTable('products',{
 })
 
 export const users = mysqlTable('users',{
-    id: serial().primaryKey(),
+    id: int().primaryKey(),
     name: varchar({ length: 255 }).notNull(),
     email: varchar({ length:255}).notNull(),
     imageUrl: varchar( { length: 255 }).notNull(),
@@ -34,8 +34,8 @@ export const users = mysqlTable('users',{
 })
 
 export const addres = mysqlTable('addres', { 
-    id: serial().primaryKey(),
-    userId: serial().references( ()=> users.id ),
+    id: int().primaryKey(),
+    userId: int().notNull().references( ()=> users.id ),
     phoneNumber: varchar( { length: 255 }).notNull(),
     zipCode: varchar({ length:255} ).notNull(),
      road:varchar({ length:255} ).notNull(),
@@ -48,19 +48,19 @@ export const addres = mysqlTable('addres', {
 })
 
 export const orders = mysqlTable('orders',{
-    id: serial().primaryKey(),
-    userId: serial().references(()=> users.id),
+    id: int().primaryKey(),
+    userId: int().notNull().references(()=> users.id),
     total: decimal({ precision:10, scale:2 }).notNull().default('0.00'), 
     status:  mysqlEnum( ["canceled","served","erro","open"]),
-    addres: serial().notNull().references( ()=> addres.id), 
+    addres: int().notNull().references( ()=> addres.id), 
     payment: mysqlEnum(['pending','authorized']),
      createdAt: datetime().notNull(),
      updatedAt: datetime().notNull()
 })
 
 export const items= mysqlTable('items',{
-    orderId: serial().notNull().references( ()=> orders.id ),
-    productId: serial().notNull().references( ()=> products.id),
+    orderId: int().notNull().references( ()=> orders.id ),
+    productId: int().notNull().references( ()=> products.id),
     quantity: int().notNull(),
       price: decimal( { precision:10, scale:2}).notNull().default('0.00'),
     offerPrice: decimal( { precision:10, scale:2}).notNull().default('0.00'), 
