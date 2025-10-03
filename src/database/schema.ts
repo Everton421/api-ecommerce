@@ -18,7 +18,6 @@ export const products = mysqlTable('products',{
     price: decimal( { precision:10, scale:2}).notNull().default('0.00'),
     offerPrice: decimal( { precision:10, scale:2}).notNull().default('0.00'),
     category: varchar( { length:255}).notNull(),
-    date: datetime().notNull(),
     createdAt: datetime().notNull(),
     updatedAt: datetime().notNull()
 })
