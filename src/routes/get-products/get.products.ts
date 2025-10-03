@@ -19,7 +19,7 @@ export const getPtroductsRoute:FastifyPluginAsyncZod   = async ( server ) =>{
     }
 , async (request, reply )=>{
 
-        const {  search } = request.query
+        const {  search, updatedAt  } = request.query
 
             const conditions:SQL[] =[];
 
@@ -35,9 +35,12 @@ export const getPtroductsRoute:FastifyPluginAsyncZod   = async ( server ) =>{
             if(searchConditions ){
                 conditions.push(searchConditions);
             }
-
-             
         }
+
+        if(updatedAt){
+            conditions.push(  )
+        }
+
         const result = await db.select()
         .from(products)
         .where( conditions.length > 0 ? and(...conditions) : undefined)
