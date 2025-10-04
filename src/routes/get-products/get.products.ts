@@ -2,24 +2,37 @@ import { type FastifyPluginAsyncZod } from "fastify-type-provider-zod"
 import { db } from "../../database/client.ts"
 import { products } from "../../database/schema.ts"
 import z from "zod"
-import { and, like, or, SQL } from "drizzle-orm"
+import { and, eq, gt, gte, like, or, SQL } from "drizzle-orm"
 
-export const getPtroductsRoute:FastifyPluginAsyncZod   = async ( server ) =>{
+export const getProductsRoute:FastifyPluginAsyncZod   = async ( server ) =>{
     server.get('/products',{
         schema:{
             tags:['products'],
             querystring: z.object({
                 search: z.string().optional(),
-                updatedAt: z.date().optional()
+                updatedAt: z.string().optional(),
+                category: z.string().optional(),
             }),
             response:{
-
+                200: z.array(
+                    z.object({
+                        id: z.number(),
+                        name: z.string(),
+                        description: z.string().nullable(),
+                        price: z.string(),
+                        offerPrice: z.string(),
+                        category: z.string(),
+                        createdAt: z.date(),
+                        updatedAt: z.date(),
+                    }), 
+                ),
+                    400: z.object({ error: z.string()})
             }
         }
     }
 , async (request, reply )=>{
 
-        const {  search, updatedAt  } = request.query
+        const {  search, updatedAt, category  } = request.query
 
             const conditions:SQL[] =[];
 
@@ -37,60 +50,25 @@ export const getPtroductsRoute:FastifyPluginAsyncZod   = async ( server ) =>{
             }
         }
 
-        if(updatedAt){
-            conditions.push(  )
-        }
+            if(updatedAt){
+            const updatedAtProduct =  new Date(updatedAt) 
+                console.log(updatedAtProduct.getTime())
+                        if(isNaN(updatedAtProduct.getTime())){
+                            return reply.status(400).send({ error:'Invalid updatedAt date format.'})
+                        }
+                    conditions.push( gte(   products.updatedAt ,updatedAtProduct  ) )
+                }
+                if(category){
+                    conditions.push(eq(products.category, category))
+                }
 
         const result = await db.select()
         .from(products)
         .where( conditions.length > 0 ? and(...conditions) : undefined)
 
+        return reply.status(200).send( result)
+
     }
 )
 }
-/**
- 
-  const { orderBy, ativo, acesso,   search, groupBy, host, efetuar_backup } = request.query
-        
-        const conditions:SQL[] =[]; 
-       
-        if (search) {
-            const searchTerm = `%${search}%`;
-            const searchConditions = or(
-                like(clientes.nomeFantasia, searchTerm),
-                like(clientes.razaoSocial, searchTerm),
-                like(clientes.cnpj, searchTerm),
-                like(clientes.ip, searchTerm),
-                like(clientes.host, searchTerm)
-            );
-
-            if (searchConditions) {
-                conditions.push(searchConditions);
-            }
-        }
-
-        if (host) {
-            conditions.push(eq(clientes.host, host));
-        }
-        if( ativo){
-            conditions.push(eq(clientes.ativo, ativo));
-        }
-
-        if(acesso){
-            conditions.push(eq(clientes.acesso, acesso));
-        }
-        if (efetuar_backup) {
-            conditions.push(eq(clientes.efetuar_backup, efetuar_backup));
-        }
-
-      
-            
-      const clients = await 
-        db.select()
-         .from(clientes)
-         .where( conditions.length > 0 ? and(...conditions) : undefined )  // Use 'and' and handle empty conditions
-         .groupBy( clientes[groupBy] )
-         .orderBy( asc( clientes[orderBy]))
-        
-
- */
+  
