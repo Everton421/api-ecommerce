@@ -14,7 +14,7 @@ export const getProdutctByIdRoute :FastifyPluginAsyncZod = async ( server ) =>{
             response:{
                 200: z.object({
                     id:z.number(),
-                    name: z.string(),
+                    name: z.string().nullable(),
                     description: z.string().nullable(),
                     price: z.string(),
                     offerPrice:z.string(),

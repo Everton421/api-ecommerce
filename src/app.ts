@@ -4,6 +4,8 @@ import { jsonSchemaTransform, serializerCompiler, validatorCompiler, type ZodTyp
 import fastifySwagger from "@fastify/swagger";
 import scalarAPIReference from "@scalar/fastify-api-reference";
 import { getProdutctByIdRoute } from "./routes/get-product-by-id/get-product-by-id.ts";
+import { postProductRoute } from "./routes/post-products/post-product.ts";
+import {  putProductRoute } from "./routes/put-product/put-product.ts";
 const server = fastify({
     logger: false 
      // { 
@@ -33,7 +35,10 @@ const server = fastify({
  server.setSerializerCompiler(serializerCompiler);
 
  server.setValidatorCompiler( validatorCompiler )
+ 
+ server.register(putProductRoute);
 
+server.register(postProductRoute)
 server.register(getProductsRoute)
 server.register(getProdutctByIdRoute)
 export {server  }

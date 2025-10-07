@@ -12,8 +12,8 @@ export const statusOrder = mysqlEnum( ["canceled","em-andamento","erro","pendent
   
 
 export const products = mysqlTable('products',{
-    id:  int().primaryKey(),
-    name: varchar( { length: 255}).notNull(),
+    id:  int().primaryKey().autoincrement(),
+    name: varchar( { length: 255}) ,
     description:varchar( { length: 255}),
     price: decimal( { precision:10, scale:2}).notNull().default('0.00'),
     offerPrice: decimal( { precision:10, scale:2}).notNull().default('0.00'),
@@ -23,17 +23,17 @@ export const products = mysqlTable('products',{
 })
 
 export const users = mysqlTable('users',{
-    id: int().primaryKey(),
+    id: int().primaryKey().autoincrement(),
     name: varchar({ length: 255 }).notNull(),
     email: varchar({ length:255}).notNull(),
-    imageUrl: varchar( { length: 255 }).notNull(),
+    imageUrl: varchar( { length: 255 }),
     phoneNumber: varchar( { length: 255 }).notNull(),
       createdAt: datetime().notNull(),
      updatedAt: datetime().notNull()
 })
 
 export const addres = mysqlTable('addres', { 
-    id: int().primaryKey(),
+    id: int().primaryKey().autoincrement(),
     userId: int().notNull().references( ()=> users.id ),
     phoneNumber: varchar( { length: 255 }).notNull(),
     zipCode: varchar({ length:255} ).notNull(),
@@ -47,7 +47,7 @@ export const addres = mysqlTable('addres', {
 })
 
 export const orders = mysqlTable('orders',{
-    id: int().primaryKey(),
+    id: int().primaryKey().autoincrement(),
     userId: int().notNull().references(()=> users.id),
     total: decimal({ precision:10, scale:2 }).notNull().default('0.00'), 
     status:  mysqlEnum( ["canceled","served","erro","open"]),

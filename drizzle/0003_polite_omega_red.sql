@@ -1,0 +1,1 @@
+ALTER TABLE `products` MODIFY COLUMN `name` varchar(255);
