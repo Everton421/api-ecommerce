@@ -22,6 +22,14 @@ export const products = mysqlTable('products',{
     updatedAt: datetime().notNull()
 })
 
+export const products_imgs = mysqlTable('products_imgs',{
+    id: int().primaryKey().autoincrement(),
+    productId: int().notNull().references( ()=> products.id),
+    imgUrl:varchar({ length: 255 }).notNull()
+})  
+
+
+
 export const users = mysqlTable('users',{
     id: int().primaryKey().autoincrement(),
     name: varchar({ length: 255 }).notNull(),
