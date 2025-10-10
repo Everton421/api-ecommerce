@@ -6,7 +6,30 @@ import scalarAPIReference from "@scalar/fastify-api-reference";
 import { getProdutctByIdRoute } from "./routes/get-product-by-id/get-product-by-id.ts";
 import { postProductRoute } from "./routes/post-products/post-product.ts";
 import {  putProductRoute } from "./routes/put-product/put-product.ts";
+import path from 'node:path'
+import fs from 'node:fs'
+import cors from '@fastify/cors'
+
+let certPathEnv;
+if(process.env.PATH_CERT) certPathEnv = String(process.env.PATH_CERT)
+
+let keyPathEnv 
+if(process.env.PATH_KEY) keyPathEnv = String(process.env.PATH_KEY)
+
+let httpsOptions ={}
+if( process.env.NODE_ENV === 'production' && keyPathEnv && certPathEnv ){
+    const keyPath = path.join(keyPathEnv);
+    const certPath = path.join(certPathEnv);
+    
+    httpsOptions= {
+        key: fs.readFileSync(keyPath),
+        cert: fs.readFileSync(certPath)
+    }
+}
+
+
 const server = fastify({
+    https: httpsOptions,
     logger: false 
      // { 
       //  transport:{
@@ -30,6 +53,8 @@ const server = fastify({
     transform: jsonSchemaTransform,
  })
 
+ 
+server.register(cors)
  server.register( scalarAPIReference,{ routePrefix:'/docs' } )
 
  server.setSerializerCompiler(serializerCompiler);

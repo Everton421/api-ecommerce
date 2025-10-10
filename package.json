@@ -6,13 +6,14 @@
   "scripts": {
     "dev": "node --env-file .env --watch --experimental-strip-types src/server.ts",
     "test": "echo \"Error: no test specified\" && exit 1",
-    "db:migrate":"npx drizzle-kit migrate",
-    "db:generate":"npx drizzle-kit generate"
+    "db:migrate": "npx drizzle-kit migrate",
+    "db:generate": "npx drizzle-kit generate"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "@fastify/cors": "^11.1.0",
     "@fastify/swagger": "^9.5.2",
     "@fastify/swagger-ui": "^5.2.3",
     "@scalar/fastify-api-reference": "^1.36.2",

@@ -1,8 +1,22 @@
 import { type FastifyPluginAsyncZod } from "fastify-type-provider-zod";
 import z from "zod";
 import { db } from "../../database/client.ts";
-import { products } from "../../database/schema.ts";
+import { products, products_imgs } from "../../database/schema.ts";
 import { eq } from "drizzle-orm";
+import { transformProduct } from "../../utils/transform-product.ts";
+  type productImg =  {
+    id:number
+    name:string | null 
+    description:string | null 
+    price:string
+    offerPrice:string
+    category:string
+    createdAt:   Date
+    updatedAt:   Date
+    imgs:imgsProduct[]  
+} 
+  type imgsProduct = {id:number, productId:number, imgUrl:string  }
+
 
 export const getProdutctByIdRoute :FastifyPluginAsyncZod = async ( server ) =>{
     server.get('/products/:id',{
@@ -20,16 +34,33 @@ export const getProdutctByIdRoute :FastifyPluginAsyncZod = async ( server ) =>{
                     offerPrice:z.string(),
                     category:z.string(),
                     createdAt: z.date(),
-                    updatedAt:z.date()
+                    updatedAt:z.date(),
+                    imgs: z.array(
+                        z.object({
+                            id: z.number(),
+                            productId:z.number(),
+                            imgUrl:z.string()
+                        })
+                    )
                 })
             }
         }
     } , async ( request, reply ) =>{
 
             const { id } = request.params
-            const product = await db.select().from(products).where(eq(products.id, Number(id) ))
-            console.log(product)
-                return reply.status(200).send(product[0])
+
+                const [ resultProducts, resultImgs ] = await Promise.all([
+                    db.select().from(products).where(eq(products.id, Number(id) )),
+                    db.select().from(products_imgs).where( eq(products_imgs.productId, Number(id) ))
+                ])
+
+                    let productImg: productImg
+                if(resultProducts.length > 0 ){
+                        productImg = transformProduct(resultProducts[0],resultImgs)
+              
+                      return reply.status(200).send(productImg )
+                    }
+
         }   
 
 )
