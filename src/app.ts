@@ -54,7 +54,10 @@ const server = fastify({
  })
 
  
-server.register(cors)
+server.register(cors,{
+    origin:'*',
+    methods:'*'
+})
  server.register( scalarAPIReference,{ routePrefix:'/docs' } )
 
  server.setSerializerCompiler(serializerCompiler);
