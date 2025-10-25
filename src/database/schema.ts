@@ -9,7 +9,7 @@ import { mysqlTable } from "drizzle-orm/mysql-core";
 
 export const statusOrder = mysqlEnum( ["canceled","em-andamento","erro","pendente"])
  
-  
+  export const typeUser = mysqlEnum( [ "admin", "client"]);
 
 export const products = mysqlTable('products',{
     id:  int().primaryKey().autoincrement(),
@@ -18,14 +18,16 @@ export const products = mysqlTable('products',{
     price: decimal( { precision:10, scale:2}).notNull().default('0.00'),
     offerPrice: decimal( { precision:10, scale:2}).notNull().default('0.00'),
     category: varchar( { length:255}).notNull(),
-    createdAt: datetime().notNull(),
-    updatedAt: datetime().notNull()
+    createdAt: datetime().notNull().default(new Date('2001-01-01 00:00:00')),
+    updatedAt: datetime().notNull().default(new Date('2001-01-01 00:00:00')) 
 })
 
 export const products_imgs = mysqlTable('products_imgs',{
     id: int().primaryKey().autoincrement(),
     productId: int().notNull().references( ()=> products.id),
-    imgUrl:varchar({ length: 255 }).notNull()
+    imgUrl:varchar({ length: 255 }).notNull(),
+     createdAt: datetime().notNull().default(new Date('2001-01-01 00:00:00')),
+    updatedAt: datetime().notNull().default(new Date('2001-01-01 00:00:00')) 
 })  
 
 
@@ -36,9 +38,10 @@ export const users = mysqlTable('users',{
     email: varchar({ length:255}).notNull(),
     imageUrl: varchar( { length: 255 }),
     phoneNumber: varchar( { length: 255 }).notNull(),
-      createdAt: datetime().notNull(),
-     updatedAt: datetime().notNull()
-})
+    type:  typeUser.notNull().default('client'),
+    createdAt: datetime().notNull(),
+    updatedAt: datetime().notNull()
+  })
 
 export const addres = mysqlTable('addres', { 
     id: int().primaryKey().autoincrement(),
@@ -61,8 +64,8 @@ export const orders = mysqlTable('orders',{
     status:  mysqlEnum( ["canceled","served","erro","open"]),
     addres: int().notNull().references( ()=> addres.id), 
     payment: mysqlEnum(['pending','authorized']),
-     createdAt: datetime().notNull(),
-     updatedAt: datetime().notNull()
+     createdAt: datetime().notNull().default(new Date('2001-01-01 00:00:00')),
+     updatedAt: datetime().notNull().default(new Date('2001-01-01 00:00:00')) 
 })
 
 export const items= mysqlTable('items',{

@@ -6,6 +6,9 @@ import scalarAPIReference from "@scalar/fastify-api-reference";
 import { getProdutctByIdRoute } from "./routes/get-product-by-id/get-product-by-id.ts";
 import { postProductRoute } from "./routes/post-products/post-product.ts";
 import {  putProductRoute } from "./routes/put-product/put-product.ts";
+import { postImageRoute } from "./routes/post-imgs/post-img.ts";
+import { putImageRoute } from "./routes/put-imgs/put-img.ts";
+
 import path from 'node:path'
 import fs from 'node:fs'
 import cors from '@fastify/cors'
@@ -63,9 +66,9 @@ server.register(cors,{
  server.setSerializerCompiler(serializerCompiler);
 
  server.setValidatorCompiler( validatorCompiler )
- 
+ server.register(putImageRoute);
  server.register(putProductRoute);
-
+server.register(postImageRoute);
 server.register(postProductRoute)
 server.register(getProductsRoute)
 server.register(getProdutctByIdRoute)

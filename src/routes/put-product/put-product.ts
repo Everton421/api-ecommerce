@@ -36,7 +36,7 @@ export const putProductRoute: FastifyPluginAsyncZod = async ( server ) =>{
                     if(verifyProduct.length === 0 ) return reply.status(400).send();
 
                 try{
-                        const resultUpdateProduct = await 
+                 const resultUpdateProduct = await 
                         db.update(products)
                         .set({
                             category:category,

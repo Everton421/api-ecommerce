@@ -35,25 +35,24 @@ export const getProductsRoute:FastifyPluginAsyncZod   = async ( server ) =>{
         schema:{
             tags:['products'],
             querystring: z.object({
-                search: z.string().optional(),
-                updatedAt: z.string().optional(),
-                category: z.string().optional(),
+                search: z.string().optional().describe('Filtra com base na descrição/nome/categoria.'),
+                updatedAt: z.string().optional().describe('Obtem itens com data de atualização > ou = a data informada. Ex.: [ 2025-10-20 ]: trará itens que sofreram alteração em 2025-10-20 ou posteriomente.'),
+                category: z.string().optional().describe('Filtra os itens com base na categoria cadastrada.'),
             }),
             response:{
                 200: z.array(
                     z.object({
-                        id: z.number(),
+                        id: z.number().describe("Id do produto"),
                         name: z.string().nullable(),
                         description: z.string().nullable(),
-                        price: z.string(),
+                        price: z.string().describe("Preço do produto"),
                         offerPrice: z.string(),
                         category: z.string(),
                         createdAt: z.date(),
                         updatedAt: z.date(),
                         imgs: z.array(
                                 z.object({
-                                    id:z.number(),
-                                    productId:z.number(),
+                                    id:z.number().describe("Id da imagem do produto"),
                                     imgUrl:z.string()
                                 })
                          ) 
@@ -99,8 +98,7 @@ export const getProductsRoute:FastifyPluginAsyncZod   = async ( server ) =>{
                          db.select()
                             .from(products)
                             .where( conditions.length > 0 ? and(...conditions) : undefined) ,
-
-                            db.select().from(products_imgs)
+                            db.select( ).from(products_imgs)
                     ])
 
                     const arrProducts: productImg[] =[]
@@ -111,12 +109,11 @@ export const getProductsRoute:FastifyPluginAsyncZod   = async ( server ) =>{
 
                            const imgs = resultImgs.filter((i)=> i.productId === p.id)
                                 auxProd.imgs = imgs  
-
                            arrProducts.push( auxProd )  
                         }
                     }
 
-        return reply.status(200).send( arrProducts)
+           return reply.status(200).send( arrProducts)
 
     }
 )
