@@ -13,6 +13,7 @@ import { transformProduct } from "../../utils/transform-product.ts"
     price:string
     offerPrice:string
     category:string
+     specifications :string            
     createdAt:   Date
     updatedAt:   Date
     imgs:imgsProduct[]  
@@ -48,6 +49,7 @@ export const getProductsRoute:FastifyPluginAsyncZod   = async ( server ) =>{
                         price: z.string().describe("Preço do produto"),
                         offerPrice: z.string(),
                         category: z.string(),
+                        specifications:z.string().nullable(),
                         createdAt: z.date(),
                         updatedAt: z.date(),
                         imgs: z.array(
