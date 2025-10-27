@@ -1,6 +1,6 @@
 import { type FastifyPluginAsyncZod } from "fastify-type-provider-zod"
 import { db } from "../../database/client.ts"
-import { products, products_imgs } from "../../database/schema.ts"
+import { products, products_imgs, typeImg } from "../../database/schema.ts"
 import z, { promise } from "zod"
 import { and, eq, gt, gte, like, or, SQL } from "drizzle-orm"
 import { transformProduct } from "../../utils/transform-product.ts"
@@ -27,7 +27,7 @@ import { transformProduct } from "../../utils/transform-product.ts"
     createdAt:   Date
     updatedAt:    Date
 } 
-  type imgsProduct = {id:number, productId:number, imgUrl:string  }
+  type imgsProduct = {id:number, productId:number, imgUrl:string , typeImg: 'catalog' | 'specification' }
 
 
 export const getProductsRoute:FastifyPluginAsyncZod   = async ( server ) =>{
@@ -53,7 +53,8 @@ export const getProductsRoute:FastifyPluginAsyncZod   = async ( server ) =>{
                         imgs: z.array(
                                 z.object({
                                     id:z.number().describe("Id da imagem do produto"),
-                                    imgUrl:z.string()
+                                    imgUrl:z.string(),
+                                    typeImg:  z.enum(['catalog', 'specification'])
                                 })
                          ) 
                      }), 
@@ -105,7 +106,7 @@ export const getProductsRoute:FastifyPluginAsyncZod   = async ( server ) =>{
 
                     if( resultProducts.length > 0 ){
                         for(const p of resultProducts ){
-                                let auxProd:productImg =  transformProduct(p) 
+                                let auxProd  =  transformProduct(p) as productImg; 
 
                            const imgs = resultImgs.filter((i)=> i.productId === p.id)
                                 auxProd.imgs = imgs  

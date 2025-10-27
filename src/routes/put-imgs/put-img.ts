@@ -16,7 +16,8 @@ export const putImageRoute: FastifyPluginAsyncZod = async ( server ) =>{
                     imgs: z.array(
                         z.object({
                             id: z.number().describe('Id da imagem vinculada ao produto'),
-                            imgUrl: z.string()
+                            imgUrl: z.string(),
+                            typeImg: z.enum(['catalog', 'specification'])
                         })
                     )
                 })
@@ -37,6 +38,7 @@ export const putImageRoute: FastifyPluginAsyncZod = async ( server ) =>{
                     for(let i of imgs){
                        const resultInsertImg =  await db.insert(products_imgs).values({
                                 imgUrl:i.imgUrl,
+                                typeImg:i.typeImg,
                                 productId: Number(product),
                                 createdAt: sql`NOW()`,
                                 updatedAt: sql`NOW()`

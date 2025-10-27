@@ -15,7 +15,10 @@ export const postProductRoute:FastifyPluginAsyncZod = async ( server )=>{
                 offerPrice: z.number(),
                 category: z.string(),
                 imgs:z.array(
-                    z.string()
+                    z.object({
+                        imgUrl: z.string(),
+                        typeImg: z.enum(['catalog', 'specification'])
+                    })
                 ).optional()
             }),
             response:{
@@ -49,7 +52,8 @@ export const postProductRoute:FastifyPluginAsyncZod = async ( server )=>{
                              imgs.forEach( async (i)=>{
                                     await db.insert(products_imgs).values(
                                         {
-                                            imgUrl:i,
+                                            imgUrl:i.imgUrl,
+                                            typeImg: i.typeImg,
                                             productId: id,
                                             createdAt: sql`NOW()`,
                                             updatedAt: sql`NOW()`

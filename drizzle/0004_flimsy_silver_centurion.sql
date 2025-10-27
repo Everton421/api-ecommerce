@@ -1,1 +1,0 @@
-ALTER TABLE `users` MODIFY COLUMN `imageUrl` varchar(255);

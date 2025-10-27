@@ -1,7 +1,7 @@
 {
   "version": "5",
   "dialect": "mysql",
-  "id": "0b1d5fed-8f93-43d5-93ec-a83aa77a6ee0",
+  "id": "d1da01ec-5a59-4b68-b80e-a9d9e1aacdfb",
   "prevId": "00000000-0000-0000-0000-000000000000",
   "tables": {
     "addres": {
@@ -12,7 +12,7 @@
           "type": "int",
           "primaryKey": false,
           "notNull": true,
-          "autoincrement": false
+          "autoincrement": true
         },
         "userId": {
           "name": "userId",
@@ -194,7 +194,7 @@
           "type": "int",
           "primaryKey": false,
           "notNull": true,
-          "autoincrement": false
+          "autoincrement": true
         },
         "userId": {
           "name": "userId",
@@ -237,14 +237,16 @@
           "type": "datetime",
           "primaryKey": false,
           "notNull": true,
-          "autoincrement": false
+          "autoincrement": false,
+          "default": "'2001-01-01 02:00:00.000'"
         },
         "updatedAt": {
           "name": "updatedAt",
           "type": "datetime",
           "primaryKey": false,
           "notNull": true,
-          "autoincrement": false
+          "autoincrement": false,
+          "default": "'2001-01-01 02:00:00.000'"
         }
       },
       "indexes": {},
@@ -295,13 +297,13 @@
           "type": "int",
           "primaryKey": false,
           "notNull": true,
-          "autoincrement": false
+          "autoincrement": true
         },
         "name": {
           "name": "name",
           "type": "varchar(255)",
           "primaryKey": false,
-          "notNull": true,
+          "notNull": false,
           "autoincrement": false
         },
         "description": {
@@ -334,9 +336,64 @@
           "notNull": true,
           "autoincrement": false
         },
-        "date": {
-          "name": "date",
+        "createdAt": {
+          "name": "createdAt",
           "type": "datetime",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false,
+          "default": "'2001-01-01 02:00:00.000'"
+        },
+        "updatedAt": {
+          "name": "updatedAt",
+          "type": "datetime",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false,
+          "default": "'2001-01-01 02:00:00.000'"
+        }
+      },
+      "indexes": {},
+      "foreignKeys": {},
+      "compositePrimaryKeys": {
+        "products_id": {
+          "name": "products_id",
+          "columns": [
+            "id"
+          ]
+        }
+      },
+      "uniqueConstraints": {},
+      "checkConstraint": {}
+    },
+    "products_imgs": {
+      "name": "products_imgs",
+      "columns": {
+        "id": {
+          "name": "id",
+          "type": "int",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": true
+        },
+        "productId": {
+          "name": "productId",
+          "type": "int",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false
+        },
+        "typeImg": {
+          "name": "typeImg",
+          "type": "enum('catalog','especification')",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false,
+          "default": "'catalog'"
+        },
+        "imgUrl": {
+          "name": "imgUrl",
+          "type": "varchar(255)",
           "primaryKey": false,
           "notNull": true,
           "autoincrement": false
@@ -346,21 +403,37 @@
           "type": "datetime",
           "primaryKey": false,
           "notNull": true,
-          "autoincrement": false
+          "autoincrement": false,
+          "default": "'2001-01-01 02:00:00.000'"
         },
         "updatedAt": {
           "name": "updatedAt",
           "type": "datetime",
           "primaryKey": false,
           "notNull": true,
-          "autoincrement": false
+          "autoincrement": false,
+          "default": "'2001-01-01 02:00:00.000'"
         }
       },
       "indexes": {},
-      "foreignKeys": {},
+      "foreignKeys": {
+        "products_imgs_productId_products_id_fk": {
+          "name": "products_imgs_productId_products_id_fk",
+          "tableFrom": "products_imgs",
+          "tableTo": "products",
+          "columnsFrom": [
+            "productId"
+          ],
+          "columnsTo": [
+            "id"
+          ],
+          "onDelete": "no action",
+          "onUpdate": "no action"
+        }
+      },
       "compositePrimaryKeys": {
-        "products_id": {
-          "name": "products_id",
+        "products_imgs_id": {
+          "name": "products_imgs_id",
           "columns": [
             "id"
           ]
@@ -377,7 +450,7 @@
           "type": "int",
           "primaryKey": false,
           "notNull": true,
-          "autoincrement": false
+          "autoincrement": true
         },
         "name": {
           "name": "name",
@@ -397,7 +470,7 @@
           "name": "imageUrl",
           "type": "varchar(255)",
           "primaryKey": false,
-          "notNull": true,
+          "notNull": false,
           "autoincrement": false
         },
         "phoneNumber": {
@@ -406,6 +479,14 @@
           "primaryKey": false,
           "notNull": true,
           "autoincrement": false
+        },
+        "type": {
+          "name": "type",
+          "type": "enum('admin','client')",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false,
+          "default": "'client'"
         },
         "createdAt": {
           "name": "createdAt",

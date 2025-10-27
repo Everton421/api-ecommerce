@@ -1,7 +1,7 @@
 import { type  FastifyPluginAsyncZod } from "fastify-type-provider-zod";
 import z from "zod";
 import { db } from "../../database/client.ts";
-import { products, products_imgs } from "../../database/schema.ts";
+import { products, products_imgs, typeImg } from "../../database/schema.ts";
 import { eq, sql } from "drizzle-orm";
 
 export const postImageRoute : FastifyPluginAsyncZod = async (server)=>{
@@ -14,7 +14,10 @@ export const postImageRoute : FastifyPluginAsyncZod = async (server)=>{
                           }),
                   body: z.object({
                         imgs:z.array(
-                            z.string()
+                            z.object({
+                                imgUrl:z.string(),
+                                typeImg: z.enum(['catalog', 'specification'])
+                            }) 
                         ).describe('Array com as URLS das imagems.')
                 })        
         }
@@ -31,9 +34,11 @@ export const postImageRoute : FastifyPluginAsyncZod = async (server)=>{
                     const returnInsertImgs = []
                  for( const e of imgs ){
                        const resultInsertImg= await db.insert(products_imgs).values({
-                            imgUrl: e,
+                            imgUrl: e.imgUrl,
+                            typeImg: e.typeImg,
                             productId:Number(product),
                             createdAt:sql`NOW()`,
+
                             updatedAt:sql`NOW()` 
                     }).$returningId()
                     returnInsertImgs.push(resultInsertImg[0])

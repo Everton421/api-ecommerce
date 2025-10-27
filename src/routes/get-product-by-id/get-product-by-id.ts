@@ -1,7 +1,7 @@
 import { type FastifyPluginAsyncZod } from "fastify-type-provider-zod";
 import z from "zod";
 import { db } from "../../database/client.ts";
-import { products, products_imgs } from "../../database/schema.ts";
+import { products, products_imgs, typeImg } from "../../database/schema.ts";
 import { eq } from "drizzle-orm";
 import { transformProduct } from "../../utils/transform-product.ts";
   type productImg =  {
@@ -11,11 +11,12 @@ import { transformProduct } from "../../utils/transform-product.ts";
     price:string
     offerPrice:string
     category:string
+    specifications:string | null 
     createdAt:   Date
     updatedAt:   Date
     imgs:imgsProduct[]  
 } 
-  type imgsProduct = {id:number, productId:number, imgUrl:string  }
+  type imgsProduct = {id:number, productId:number, imgUrl:string , typeImg: 'catalog' | 'specification' }
 
 
 export const getProdutctByIdRoute :FastifyPluginAsyncZod = async ( server ) =>{
@@ -33,13 +34,15 @@ export const getProdutctByIdRoute :FastifyPluginAsyncZod = async ( server ) =>{
                     price: z.string(),
                     offerPrice:z.string(),
                     category:z.string(),
+                    specifications:z.string().nullable(),
                     createdAt: z.date(),
                     updatedAt:z.date(),
                     imgs: z.array(
                         z.object({
                             id: z.number(),
                             productId:z.number(),
-                            imgUrl:z.string()
+                            imgUrl:z.string(),
+                            typeImg: z.enum(['catalog', 'specification']) 
                         })
                     )
                 })
@@ -58,7 +61,7 @@ export const getProdutctByIdRoute :FastifyPluginAsyncZod = async ( server ) =>{
                 if(resultProducts.length > 0 ){
                         productImg = transformProduct(resultProducts[0],resultImgs)
               
-                      return reply.status(200).send(productImg )
+                      return reply.status(200).send(productImg   )
                     }
 
         }   

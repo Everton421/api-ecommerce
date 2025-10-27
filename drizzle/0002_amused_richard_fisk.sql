@@ -1,0 +1,1 @@
+ALTER TABLE `products_imgs` MODIFY COLUMN `typeImg` enum('catalog','specification') NOT NULL DEFAULT 'catalog';

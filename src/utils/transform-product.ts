@@ -10,6 +10,7 @@
     category:string
     createdAt:   Date
     updatedAt:   Date
+    specifications: string | null ,
     imgs:imgsProduct[]  
 } 
    type product  =  {
@@ -19,10 +20,11 @@
     price:string
     offerPrice:string
     category:string
+    specifications: string | null ,
     createdAt:   Date
     updatedAt:    Date
 } 
-  type imgsProduct = {id:number, productId:number, imgUrl:string  }
+  type imgsProduct = {id:number, productId:number, imgUrl:string , typeImg: 'catalog' | 'specification' }
 
 
 
@@ -37,6 +39,7 @@ export function transformProduct(product: product , imgs?:imgsProduct[])   {
                                       name: product.name,
                                       offerPrice: product.offerPrice,
                                       price: product.price,
+                                       specifications: product.specifications,
                                       updatedAt: product.updatedAt
                                             }
 }

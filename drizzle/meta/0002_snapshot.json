@@ -1,8 +1,8 @@
 {
   "version": "5",
   "dialect": "mysql",
-  "id": "d6a18ba1-2f72-4951-b5a2-76e5717faa4e",
-  "prevId": "919b42a0-87e8-49df-a025-86cf5e633e63",
+  "id": "61a5cdde-41c6-41e4-836f-894395e3301e",
+  "prevId": "9a600070-20c2-4c08-a53f-4e38591d7886",
   "tables": {
     "addres": {
       "name": "addres",
@@ -237,14 +237,16 @@
           "type": "datetime",
           "primaryKey": false,
           "notNull": true,
-          "autoincrement": false
+          "autoincrement": false,
+          "default": "'2001-01-01 02:00:00.000'"
         },
         "updatedAt": {
           "name": "updatedAt",
           "type": "datetime",
           "primaryKey": false,
           "notNull": true,
-          "autoincrement": false
+          "autoincrement": false,
+          "default": "'2001-01-01 02:00:00.000'"
         }
       },
       "indexes": {},
@@ -301,7 +303,7 @@
           "name": "name",
           "type": "varchar(255)",
           "primaryKey": false,
-          "notNull": true,
+          "notNull": false,
           "autoincrement": false
         },
         "description": {
@@ -334,19 +336,28 @@
           "notNull": true,
           "autoincrement": false
         },
+        "specifications": {
+          "name": "specifications",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false,
+          "autoincrement": false
+        },
         "createdAt": {
           "name": "createdAt",
           "type": "datetime",
           "primaryKey": false,
           "notNull": true,
-          "autoincrement": false
+          "autoincrement": false,
+          "default": "'2001-01-01 02:00:00.000'"
         },
         "updatedAt": {
           "name": "updatedAt",
           "type": "datetime",
           "primaryKey": false,
           "notNull": true,
-          "autoincrement": false
+          "autoincrement": false,
+          "default": "'2001-01-01 02:00:00.000'"
         }
       },
       "indexes": {},
@@ -354,6 +365,82 @@
       "compositePrimaryKeys": {
         "products_id": {
           "name": "products_id",
+          "columns": [
+            "id"
+          ]
+        }
+      },
+      "uniqueConstraints": {},
+      "checkConstraint": {}
+    },
+    "products_imgs": {
+      "name": "products_imgs",
+      "columns": {
+        "id": {
+          "name": "id",
+          "type": "int",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": true
+        },
+        "productId": {
+          "name": "productId",
+          "type": "int",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false
+        },
+        "typeImg": {
+          "name": "typeImg",
+          "type": "enum('catalog','specification')",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false,
+          "default": "'catalog'"
+        },
+        "imgUrl": {
+          "name": "imgUrl",
+          "type": "varchar(255)",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false
+        },
+        "createdAt": {
+          "name": "createdAt",
+          "type": "datetime",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false,
+          "default": "'2001-01-01 02:00:00.000'"
+        },
+        "updatedAt": {
+          "name": "updatedAt",
+          "type": "datetime",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false,
+          "default": "'2001-01-01 02:00:00.000'"
+        }
+      },
+      "indexes": {},
+      "foreignKeys": {
+        "products_imgs_productId_products_id_fk": {
+          "name": "products_imgs_productId_products_id_fk",
+          "tableFrom": "products_imgs",
+          "tableTo": "products",
+          "columnsFrom": [
+            "productId"
+          ],
+          "columnsTo": [
+            "id"
+          ],
+          "onDelete": "no action",
+          "onUpdate": "no action"
+        }
+      },
+      "compositePrimaryKeys": {
+        "products_imgs_id": {
+          "name": "products_imgs_id",
           "columns": [
             "id"
           ]
@@ -390,7 +477,7 @@
           "name": "imageUrl",
           "type": "varchar(255)",
           "primaryKey": false,
-          "notNull": true,
+          "notNull": false,
           "autoincrement": false
         },
         "phoneNumber": {
@@ -399,6 +486,14 @@
           "primaryKey": false,
           "notNull": true,
           "autoincrement": false
+        },
+        "type": {
+          "name": "type",
+          "type": "enum('admin','client')",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false,
+          "default": "'client'"
         },
         "createdAt": {
           "name": "createdAt",
