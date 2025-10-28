@@ -1,0 +1,2 @@
+ALTER TABLE `orders` MODIFY COLUMN `status` enum('cancelled','delivered','shipped','processing','pending') NOT NULL DEFAULT 'pending';--> statement-breakpoint
+ALTER TABLE `orders` MODIFY COLUMN `payment` enum('pending','authorized') NOT NULL DEFAULT 'pending';

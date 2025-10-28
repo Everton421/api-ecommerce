@@ -1,0 +1,1 @@
+ALTER TABLE `addres` ADD `tracking_id` varchar(255) NOT NULL;
