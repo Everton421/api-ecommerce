@@ -12,6 +12,7 @@ import { putImageRoute } from "./routes/put-imgs/put-img.ts";
 import path from 'node:path'
 import fs from 'node:fs'
 import cors from '@fastify/cors'
+import { postOrdersRoute } from "./routes/post-orders/post-order.ts";
 
 let certPathEnv;
 if(process.env.PATH_CERT) certPathEnv = String(process.env.PATH_CERT)
@@ -72,4 +73,5 @@ server.register(postImageRoute);
 server.register(postProductRoute)
 server.register(getProductsRoute)
 server.register(getProdutctByIdRoute)
+server.register(postOrdersRoute)
 export {server  }
