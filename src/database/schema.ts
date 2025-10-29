@@ -48,8 +48,8 @@ export const users = mysqlTable('users',{
     imageUrl: varchar( { length: 255 }),
     phoneNumber: varchar( { length: 255 }).notNull(),
     type:  typeUser.notNull().default('client'),
-    createdAt: datetime().notNull(),
-    updatedAt: datetime().notNull()
+    createdAt: datetime().notNull().default(new Date('2001-01-01 00:00:00')),
+    updatedAt: datetime().notNull().default(new Date('2001-01-01 00:00:00'))
   })
 
 export const addres = mysqlTable('addres', { 
@@ -62,8 +62,8 @@ export const addres = mysqlTable('addres', {
     neighborhood:varchar({ length:255} ).notNull(),
     city: varchar({ length: 255}).notNull(),
     state: varchar({ length:255}).notNull(),
-    createdAt: datetime().notNull(),
-    updatedAt: datetime().notNull()
+   createdAt: datetime().notNull().default(new Date('2001-01-01 00:00:00')),
+    updatedAt: datetime().notNull().default(new Date('2001-01-01 00:00:00'))
 })
 
 export const orders = mysqlTable('orders',{

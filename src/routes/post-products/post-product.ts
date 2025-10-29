@@ -14,6 +14,7 @@ export const postProductRoute:FastifyPluginAsyncZod = async ( server )=>{
                 price: z.number(),
                 offerPrice: z.number(),
                 category: z.string(),
+                specifications: z.string().optional(),
                 imgs:z.array(
                     z.object({
                         imgUrl: z.string(),
@@ -29,7 +30,7 @@ export const postProductRoute:FastifyPluginAsyncZod = async ( server )=>{
     },
     async ( request, reply )=>{
 
-              const { category, description, name  ,offerPrice,price, imgs} = request.body
+              const { category, description,specifications, name  ,offerPrice,price, imgs} = request.body
 
         if(!name || name === '' ) return
 
@@ -41,6 +42,7 @@ export const postProductRoute:FastifyPluginAsyncZod = async ( server )=>{
                      offerPrice: Number(offerPrice).toFixed(2) ,
                      price:Number(price).toFixed(2),
                      category:category,
+                     specifications: specifications ? specifications : '',
                      createdAt:sql`NOW()`,
                      updatedAt:sql`NOW()`,
                      

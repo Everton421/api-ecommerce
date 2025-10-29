@@ -1,6 +1,6 @@
 import { type FastifyPluginAsyncZod } from "fastify-type-provider-zod";
 import z from "zod";
-import { orders, statusOrder } from "../../database/schema.ts";
+import { items, orders, statusOrder } from "../../database/schema.ts";
 import { db } from "../../database/client.ts";
 import { sql } from "drizzle-orm";
 
@@ -17,6 +17,7 @@ export const postOrdersRoute : FastifyPluginAsyncZod = async ( server )=>{
                 payment: z.enum(['pending','authorized']),
                 tracking_id: z.string(),
                 addres: z.number(),
+                createdAt:z.date().optional(),
                 items: z.array(
                     z.object({
                         productid: z.number(),
@@ -29,8 +30,8 @@ export const postOrdersRoute : FastifyPluginAsyncZod = async ( server )=>{
         }
     },
  async (request, reply )=>{
-    const {  createdAt, items,payment,shipping,status,total,tracking_id} = request.body
-
+    const {  createdAt,   payment,shipping,status,total,tracking_id} = request.body;
+    const itemsOrder = request.body.items;
     try{
 
     const resultInsertOrder = await db.insert(orders).values({
@@ -44,7 +45,24 @@ export const postOrdersRoute : FastifyPluginAsyncZod = async ( server )=>{
             shipping:shipping,
             updatedAt: sql`NOW()` 
         }).$returningId();
-        console.log(resultInsertOrder);
+         console.log(resultInsertOrder[0].id);
+         
+         const idOrder = resultInsertOrder[0].id;
+
+        if( idOrder > 0 ){
+            
+                for( let i=0; i< itemsOrder.length; i++ ){
+                    const item = itemsOrder[i];
+                    await db.insert( items ).values({
+                        orderId: Number(resultInsertOrder[0].id),  
+                        productId: item.productid,
+                        quantity: item.quantity,
+                        price: item.price,
+                        offerPrice: item.offerprice 
+                        
+                    })
+             }
+            }
 
     }catch(e){
         console.log("Erro: " , e );

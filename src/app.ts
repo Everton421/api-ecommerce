@@ -32,7 +32,12 @@ if( process.env.NODE_ENV === 'production' && keyPathEnv && certPathEnv ){
 }
 
 
-const server = fastify({
+  let server = fastify({
+    logger: false 
+
+    })
+if( process.env.NODE_ENV === 'production' && keyPathEnv && certPathEnv ){
+    const server = fastify({
     https: httpsOptions,
     logger: false 
      // { 
@@ -46,7 +51,10 @@ const server = fastify({
       //  }
       //}
 }).withTypeProvider<ZodTypeProvider>()
+}
+ 
 
+    
  server.register( fastifySwagger,{
     openapi:{
         info:{
