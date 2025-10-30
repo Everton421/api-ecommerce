@@ -32,12 +32,9 @@ if( process.env.NODE_ENV === 'production' && keyPathEnv && certPathEnv ){
 }
 
 
-  let server = fastify({
-    logger: false 
-
-    })
+  let server  
 if( process.env.NODE_ENV === 'production' && keyPathEnv && certPathEnv ){
-    const server = fastify({
+      server = fastify({
     https: httpsOptions,
     logger: false 
      // { 
@@ -51,9 +48,17 @@ if( process.env.NODE_ENV === 'production' && keyPathEnv && certPathEnv ){
       //  }
       //}
 }).withTypeProvider<ZodTypeProvider>()
+}else{
+      let server = fastify({
+    logger: false 
+
+    })
 }
  
+if(!server ){
+    throw new Error("Falha ao tentar configurar o servidor")
 
+}
     
  server.register( fastifySwagger,{
     openapi:{

@@ -17,7 +17,8 @@ export const postOrdersRoute : FastifyPluginAsyncZod = async ( server )=>{
                 payment: z.enum(['pending','authorized']),
                 tracking_id: z.string(),
                 addres: z.number(),
-                createdAt:z.date().optional(),
+                userId:z.number(),
+                createdAt:z.string().optional(),
                 items: z.array(
                     z.object({
                         productid: z.number(),
@@ -30,37 +31,47 @@ export const postOrdersRoute : FastifyPluginAsyncZod = async ( server )=>{
         }
     },
  async (request, reply )=>{
-    const {  createdAt,   payment,shipping,status,total,tracking_id} = request.body;
+    const {  createdAt, userId, addres,  payment,shipping,status,total,tracking_id} = request.body;
     const itemsOrder = request.body.items;
     try{
 
-    const resultInsertOrder = await db.insert(orders).values({
-            addres:1,
-            userId:1,
-            total: total,
+        if(createdAt){
+            const createdAtOrder = new Date(createdAt);
+            if( isNaN( createdAtOrder.getTime())){
+                return reply.status(400).send({ error:"Invalid createdAt date format."})
+            }
+        }
+         
+          const newOrder = {
+            addres: Number(request.body.addres) ,
+            userId: Number(request.body.userId),
+            total: String(total),
             status: status,
             tracking_id: tracking_id,
-            createdAt:sql`NOW()`,
-            payment:payment,
-            shipping:shipping,
-            updatedAt: sql`NOW()` 
-        }).$returningId();
-         console.log(resultInsertOrder[0].id);
-         
-         const idOrder = resultInsertOrder[0].id;
+            createdAt:  createdAt  ,
+            payment: payment,
+            shipping: shipping,
+            updatedAt: sql`NOW()`
+        }  as any // Adiciona a tipagem explícita
 
-        if( idOrder > 0 ){
+const resultInsertOrder = await db.insert(orders).values(newOrder  ).$returningId();
+         
+         const order_Id  = Number(resultInsertOrder[0].id);
+
+        if(order_Id && order_Id > 0 ){
             
                 for( let i=0; i< itemsOrder.length; i++ ){
-                    const item = itemsOrder[i];
-                    await db.insert( items ).values({
-                        orderId: Number(resultInsertOrder[0].id),  
+                    const item = itemsOrder[i]  ;
+                    
+                    const object = {
+                         orderId:order_Id ,
                         productId: item.productid,
                         quantity: item.quantity,
-                        price: item.price,
-                        offerPrice: item.offerprice 
-                        
-                    })
+                        price:  String(item.price)  ,
+                        offerPrice: String(item.offerprice) 
+                    } satisfies  typeof items.$inferInsert;
+
+                    await db.insert( items ).values( object)
              }
             }
 

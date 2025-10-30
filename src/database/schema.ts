@@ -83,7 +83,7 @@ export const items= mysqlTable('items',{
     orderId: int().notNull().references( ()=> orders.id ),
     productId: int().notNull().references( ()=> products.id),
     quantity: int().notNull(),
-      price: decimal( { precision:10, scale:2}).notNull().default('0.00'),
+    price: decimal( { precision:10, scale:2}).notNull().default('0.00'),
     offerPrice: decimal( { precision:10, scale:2}).notNull().default('0.00'), 
 })
 
