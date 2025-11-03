@@ -13,6 +13,7 @@ import path from 'node:path'
 import fs from 'node:fs'
 import cors from '@fastify/cors'
 import { postOrdersRoute } from "./routes/post-orders/post-order.ts";
+import { getOrdersRoute } from "./routes/get-orders/get-order.ts";
 
 let certPathEnv;
 if(process.env.PATH_CERT) certPathEnv = String(process.env.PATH_CERT)
@@ -87,4 +88,5 @@ server.register(postProductRoute)
 server.register(getProductsRoute)
 server.register(getProdutctByIdRoute)
 server.register(postOrdersRoute)
+server.register(getOrdersRoute)
 export {server  }
