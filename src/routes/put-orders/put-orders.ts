@@ -11,8 +11,10 @@ export const putOrderRoute: FastifyPluginAsyncZod = async  ( server ) =>{
             tags:['orders'],
             params: z.object({
                 id: z.string()
+            }),
+            body:z.object({
+                    
             })
-
         }
     },
     async ( request ,reply )=>{
@@ -24,5 +26,17 @@ export const putOrderRoute: FastifyPluginAsyncZod = async  ( server ) =>{
         if(verifyOrder.length === 0 ){
             return reply.status(400).send({ error: `No order was found with ID: ${id}`});
         }
+         
+               await db.update(orders).set(
+                {
+                    addres:
+                }
+               )            
+         
+         
+
+            
+
+
     })
 }
