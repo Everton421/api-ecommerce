@@ -62,7 +62,7 @@ export const addres = mysqlTable('addres', {
     neighborhood:varchar({ length:255} ).notNull(),
     city: varchar({ length: 255}).notNull(),
     state: varchar({ length:255}).notNull(),
-   createdAt: datetime().notNull().default(new Date('2001-01-01 00:00:00')),
+    createdAt: datetime().notNull().default(new Date('2001-01-01 00:00:00')),
     updatedAt: datetime().notNull().default(new Date('2001-01-01 00:00:00'))
 })
 
