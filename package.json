@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "dev": "node --env-file .env --watch --experimental-strip-types src/server.ts",
-    "test": "echo \"Error: no test specified\" && exit 1",
+    "test": "node --env-file .env --watch --experimental-strip-types src/__test__/teste.ts",
     "db:migrate": "npx drizzle-kit migrate",
     "db:generate": "npx drizzle-kit generate"
   },
