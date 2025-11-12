@@ -16,6 +16,7 @@ import { postOrdersRoute } from "./routes/post-orders/post-order.ts";
 import { getOrdersRoute } from "./routes/get-orders/get-order.ts";
 import { putOrderRoute } from "./routes/put-orders/put-orders.ts";
 import { getAddresRoute } from "./routes/get-addres/get-addres.ts";
+import { getClientRoute } from "./routes/get-client/get-client.ts";
 
 let certPathEnv;
 if(process.env.PATH_CERT) certPathEnv = String(process.env.PATH_CERT)
@@ -93,5 +94,5 @@ server.register(postOrdersRoute)
 server.register(getOrdersRoute)
 server.register(putOrderRoute)
 server.register(getAddresRoute);
-
+server.register(getClientRoute);
 export {server  }
