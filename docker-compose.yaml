@@ -5,6 +5,7 @@ services:
     image: mariadb:10.6 # ou a versão que preferir
     container_name: mariadb_db
     restart: always
+    command: --innodb-use-native-aio=0
     environment:
       MARIADB_ROOT_PASSWORD: 123
       MARIADB_DATABASE: ecommerce
@@ -13,6 +14,8 @@ services:
     ports:
       - "3306:3306"
     volumes:
+      - ./docker/setup.sql:/docker-entrypoint-initdb.d/setup.sql
       - db_data:/var/lib/mysql
+
 volumes:
-  db_data:
+  db_data: 

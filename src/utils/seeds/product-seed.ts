@@ -5,6 +5,8 @@ import { products_imgs } from '../../database/schema.ts'
     
 
     export async function seedProduct(){
+
+            
             await db.insert(products_imgs).values(
                 {
                     productId:1,

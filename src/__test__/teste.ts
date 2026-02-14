@@ -1,3 +1,5 @@
 import { seedProduct } from "../utils/seeds/product-seed.ts";
 
-    seedProduct()
+   // seedProduct()
+
+   console.log(process.env.DATABASE_URL)
