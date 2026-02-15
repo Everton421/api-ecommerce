@@ -5,7 +5,7 @@ import assert from "assert";
 import { makeProductImg } from "./make-product-img.ts";
 
  
-  test.it("[ factory-product ] make product function.", async ()=>{
+  test("[ factory-product ] make product function.", async ( t )=>{
         
         const price  =   Number(faker.commerce.price());
         const offerPrice = price - 1;
@@ -14,26 +14,32 @@ import { makeProductImg } from "./make-product-img.ts";
         const category =  faker.commerce.department()
         const specifications=  faker.commerce.productDescription();
 
-   const productId = await makeProduct({
-            price,
-            offerPrice,
-            name,
-            description,
-            category,
-            specifications
-        });
+        let productId:number = 0 ;
+   
+        await t.test(" make-product ", async ( t )=>{
+              productId = await makeProduct({
+                        price,
+                        offerPrice,
+                        name,
+                        description,
+                        category,
+                        specifications
+                    });
 
         assert.strictEqual(typeof productId , 'number',"Input must by a number. " );
-        
-        const arrIdImgs:number[] = [];
+        })
 
-        let count = 0;
-        while( count < 3 ){
-            const url = faker.image.url({ height: 480, width: 640 })
-            const idImg = await makeProductImg({imgUrl: url , productId:productId  })
-                arrIdImgs.push(idImg);
-            count++;
-        } 
+        const arrIdImgs:number[] = [];
+        await t.test( 'make-product-img ', async ( t )=>{
+            let count = 0;
+                    while( count < 3 ){
+                        const url = faker.image.url({ height: 480, width: 640 })
+                        const idImg = await makeProductImg({imgUrl: url , productId:productId  })
+                            arrIdImgs.push(idImg);
+                        count++;
+            } 
+        })
+      
 
 
   })

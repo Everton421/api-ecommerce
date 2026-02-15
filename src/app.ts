@@ -26,6 +26,10 @@ if(process.env.PATH_KEY) keyPathEnv = String(process.env.PATH_KEY)
 
 
 
+   let dataServer:any = {
+            logger:true
+    }
+
 let httpsOptions ={}
 if(  keyPathEnv && certPathEnv ){
     const keyPath = path.join(keyPathEnv);
@@ -35,12 +39,10 @@ if(  keyPathEnv && certPathEnv ){
         key: fs.readFileSync(keyPath),
         cert: fs.readFileSync(certPath)
     }
+    dataServer.https = httpsOptions;
 }
-
- const server =fastify({
-    https: httpsOptions,
-    logger:true
-     }).withTypeProvider<ZodTypeProvider>()
+    
+ const server =fastify( dataServer ).withTypeProvider<ZodTypeProvider>()
 
 
 if(!server ){
