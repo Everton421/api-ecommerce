@@ -13,7 +13,7 @@ import cors from '@fastify/cors';
 import fs from 'node:fs';
 import path from 'node:path';
 import { getAddresRoute } from "./routes/get-addres/get-addres.ts";
-import { getClientRoute } from "./routes/get-client/get-client.ts";
+import { getClientRoute } from "./routes/get-user/get-user.ts";
 import { getOrdersRoute } from "./routes/get-orders/get-order.ts";
 import { postOrdersRoute } from "./routes/post-orders/post-order.ts";
 import { putOrderRoute } from "./routes/put-orders/put-orders.ts";
@@ -27,7 +27,6 @@ if(process.env.PATH_KEY) keyPathEnv = String(process.env.PATH_KEY)
 
 
    let dataServer:any = {
-            logger:true
     }
 
 let httpsOptions ={}

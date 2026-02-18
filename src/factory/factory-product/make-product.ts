@@ -1,9 +1,9 @@
 import { faker } from "@faker-js/faker";
 import { db } from "../../database/client.ts";
 import { products } from "../../database/schema.ts";
-import { type typeProduct, type typeProductImg } from "../../types/product-types.ts";
+import { type typeProduct, type typeProductImg } from "../../types/type-product.ts";
 
-    type insertProduct = Omit<typeProduct, 'updatedAt'| 'createdAt'| 'id'> 
+    type insertProduct = Omit<typeProduct, 'updatedAt' | 'createdAt' | 'id'> 
 
 
 export async function makeProduct(product?: insertProduct, imgs?:typeProductImg[] ){
@@ -27,6 +27,5 @@ export async function makeProduct(product?: insertProduct, imgs?:typeProductImg[
             ).$returningId();
 
            return resultInsert[0].id;
-
-
+ 
 }

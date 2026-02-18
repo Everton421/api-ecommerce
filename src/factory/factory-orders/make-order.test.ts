@@ -1,13 +1,10 @@
-/*
+import assert from "assert";
 import test from "node:test";
-import { makeProduct } from "../factory-product/make-product.ts";
+import describe from 'node:test';
 
-
-test("[ Make order ]  ", async ()=>{
-    
-    const productId = await makeProduct();
-
-        console.log(productId);
-
+describe("make-order", ()=>{
+ test(" [ TEST make-order ]", () => {
+        const a = true;
+        assert.ok(a, " variable a is false")
+    })
 })
-*/

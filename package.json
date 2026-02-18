@@ -3,13 +3,16 @@
   "version": "1.0.0",
   "description": "",
   "main": "index.js",
+  "type": "module",
   "scripts": {
     "dev": "node --env-file .env --watch --experimental-strip-types src/server.ts",
     "db:migrate": "   drizzle-kit migrate",
     "db:generate": "  drizzle-kit generate",
     "teste:dev": "node --env-file .env.test --watch --experimental-strip-types src/server.ts",
     "teste:migrate": "dotenv -e .env.test -- drizzle-kit migrate",
-    "teste": "node --env-file .env.test --watch --experimental-strip-types  --test "
+    "teste": "node --disable-warning=ExperimentalWarning --env-file .env.test  --experimental-strip-types --warnings --test ",
+    "teste:user": "node -disable-warning=ExperimentalWarning --env-file .env.test --watch --experimental-strip-types src/factory/factory-user/make-user.test.ts" 
+
   },
   "keywords": [],
   "author": "",

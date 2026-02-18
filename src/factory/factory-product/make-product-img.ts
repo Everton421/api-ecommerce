@@ -1,6 +1,6 @@
 import { db } from "../../database/client.ts";
 import { products_imgs } from "../../database/schema.ts";
-import { type typeProductImg } from "../../types/product-types.ts";
+import { type typeProductImg } from "../../types/type-product.ts";
 
 type omitIDataImg = Omit<typeProductImg, 'updatedAt' | 'createdAt' | 'id'>;
 
@@ -21,6 +21,6 @@ export async function makeProductImg( img:insertImg  ){
                 }
             ).$returningId();
             
-           return resultInsert[0].id;
+            return resultInsert[0].id;
 
 }

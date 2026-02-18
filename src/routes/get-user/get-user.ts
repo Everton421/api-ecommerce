@@ -6,9 +6,9 @@ import { db } from "../../database/client.ts";
 
 
 export const getClientRoute:FastifyPluginAsyncZod = async ( server  ) => {
-    server.get('/clients',{
+    server.get('/users',{
         schema:{
-            tags:['clients'],
+            tags:['users'],
             querystring: z.object({
                 search:z.string().optional(),
                 updatedAt: z.string().optional(),
