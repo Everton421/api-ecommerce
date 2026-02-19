@@ -4,9 +4,11 @@ import { users } from "../../database/schema.ts";
 import { type typeUser } from "../../types/type-user.ts";
 
 
-type typeInsertUser =  Omit<typeUser, 'createdAt' | 'updatedAt' | 'id'>;
+type  omitAtributesUser =  Omit<typeUser, 'createdAt' | 'updatedAt' | 'id'>;
+type partialBy<T,K extends keyof T> = Omit<T,K> & Partial<Pick<T,K>>;
 
-
+ type typeInsertUser = partialBy<omitAtributesUser, 'imageUrl'>
+ 
 export async function makeUser (user?:typeInsertUser) {
 
         const email = user?.email ?? faker.internet.email();
@@ -14,6 +16,7 @@ export async function makeUser (user?:typeInsertUser) {
         const phoneNumber = user?.phoneNumber ?? faker.phone.number();
         const imageUrl = user?.imageUrl ?? faker.image.avatar();
         const type = user?.type ?? 'client';
+
             const resultInserUser = await db.insert(users).values(
                 {
                     email,

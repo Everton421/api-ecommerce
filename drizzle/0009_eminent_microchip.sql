@@ -1,0 +1,1 @@
+ALTER TABLE `addres` ADD `complement` varchar(255);

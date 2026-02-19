@@ -64,6 +64,20 @@
       "when": 1761775661364,
       "tag": "0008_safe_captain_universe",
       "breakpoints": true
+    },
+    {
+      "idx": 9,
+      "version": "5",
+      "when": 1771458308007,
+      "tag": "0009_eminent_microchip",
+      "breakpoints": true
+    },
+    {
+      "idx": 10,
+      "version": "5",
+      "when": 1771460708583,
+      "tag": "0010_lazy_maelstrom",
+      "breakpoints": true
     }
   ]
 }

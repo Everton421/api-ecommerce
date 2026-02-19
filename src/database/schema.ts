@@ -55,13 +55,13 @@ export const users = mysqlTable('users',{
 export const addres = mysqlTable('addres', { 
     id: int().primaryKey().autoincrement(),
     userId: int().notNull().references( ()=> users.id ),
-    phoneNumber: varchar( { length: 255 }).notNull(),
     zipCode: varchar({ length:255} ).notNull(),
     road:varchar({ length:255} ).notNull(),
     number: int().notNull(),
     neighborhood:varchar({ length:255} ).notNull(),
     city: varchar({ length: 255}).notNull(),
     state: varchar({ length:255}).notNull(),
+    complement : varchar({ length:255}),
     createdAt: datetime().notNull().default(new Date('2001-01-01 00:00:00')),
     updatedAt: datetime().notNull().default(new Date('2001-01-01 00:00:00'))
 })

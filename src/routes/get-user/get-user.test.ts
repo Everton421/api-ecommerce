@@ -10,7 +10,7 @@ import { pool } from "../../database/client.ts";
 test(" [ GET USER ROUTE ] ", async (t) => {
 
     const name = " TEST " + randomUUID();
-    await t.test("", async () => {
+    await t.test(" get user route", async () => {
 
         const resultInsertUser = await makeUser({
             email: faker.internet.email(),

@@ -1,0 +1,1 @@
+ALTER TABLE `addres` DROP COLUMN `phoneNumber`;

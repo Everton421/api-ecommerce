@@ -17,6 +17,7 @@ import { getClientRoute } from "./routes/get-user/get-user.ts";
 import { getOrdersRoute } from "./routes/get-orders/get-order.ts";
 import { postOrdersRoute } from "./routes/post-orders/post-order.ts";
 import { putOrderRoute } from "./routes/put-orders/put-orders.ts";
+import { postUserRoute } from "./routes/post-user/post-user.ts";
 
 let certPathEnv;
 if(process.env.PATH_CERT) certPathEnv = String(process.env.PATH_CERT)
@@ -27,6 +28,7 @@ if(process.env.PATH_KEY) keyPathEnv = String(process.env.PATH_KEY)
 
 
    let dataServer:any = {
+    logger:false 
     }
 
 let httpsOptions ={}
@@ -69,8 +71,9 @@ server.register(cors,{
  server.setSerializerCompiler(serializerCompiler);
 
  server.setValidatorCompiler( validatorCompiler )
- server.register(putImageRoute);
- server.register(putProductRoute);
+
+server.register(putImageRoute);
+server.register(putProductRoute);
 server.register(postImageRoute);
 server.register(postProductRoute)
 server.register(getProductsRoute)
@@ -80,4 +83,6 @@ server.register(getOrdersRoute)
 server.register(putOrderRoute)
 server.register(getAddresRoute);
 server.register(getClientRoute);
+server.register(postUserRoute);
+
 export { server };

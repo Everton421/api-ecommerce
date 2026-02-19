@@ -10,8 +10,7 @@
     "db:generate": "  drizzle-kit generate",
     "teste:dev": "node --env-file .env.test --watch --experimental-strip-types src/server.ts",
     "teste:migrate": "dotenv -e .env.test -- drizzle-kit migrate",
-    "teste": "node --disable-warning=ExperimentalWarning --env-file .env.test  --experimental-strip-types --warnings --test ",
-    "teste:user": "node -disable-warning=ExperimentalWarning --env-file .env.test --watch --experimental-strip-types src/factory/factory-user/make-user.test.ts" 
+    "teste": "node --disable-warning=ExperimentalWarning --env-file .env.test  --experimental-strip-types --warnings --experimental-test-coverage --test " 
 
   },
   "keywords": [],
